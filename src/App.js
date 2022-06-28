@@ -11,6 +11,8 @@ import LoginPage from './Pages/LoginPage';
 import PrivateChatPage from './Pages/PrivateChatPage';
 import RegisterPage from './Pages/RegisterPage';
 
+import './App.css';
+
 function App() {
 
   return (

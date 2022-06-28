@@ -3,6 +3,8 @@ import { socket, SocketRequest} from '../utils/Socket';
 import {useParams, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import { getMessages, postMessage } from '../utils/API';
+import ChatPop from '../Components/ChatPop';
+import send from '../images/send.svg';
 
 function getUser(){
     return JSON.parse(localStorage.getItem('chatUser'));
@@ -62,7 +64,7 @@ const PrivateChatPage = () => {
             .then(res => {
                 if(res && res.data && res.data.chat){
                     const newChats = chats.slice();
-                    newChats.push({...res.data.chat, to:{username}, from:{username:user.username}});
+                    newChats.push({...res.data.chat, to:{username, _id:id}, from:{username:user.username, _id:user._id}});
                     setChats(newChats);
                 }
             })
@@ -71,18 +73,27 @@ const PrivateChatPage = () => {
     }
 
   return (
-    <div>
-      <input placeholder="Message..."
-        value={message}
-        onChange={(event) => setMessage(event.target.value)}
-        />
-        <button onClick={sendMessage}>Send Message</button>
-        <ul style={{height:"50vh", overflowY:"scroll", border: "1px solid"}}>
+    <div className="contacts-main-container">
+      <div className="header-box">
+        <h3 className="headings">{username} </h3>
+        {/* <button className="btn btn-outline-danger" onClick={logout}>Logout</button> */}
+      </div>
+      <div className="chat-subWindow">
+        <div className="chat-container">
             {chats && chats.length > 0 && chats.map((data, i) => (
-                <li>{data.from.username}:{data.message}</li>
+              <ChatPop key={i} data={data} user={user}/>
             ))}
             <div ref={bottom}></div>
-        </ul>
+        </div>
+        <div className="send-div">
+          <input placeholder="Type Message..." className="send-input form-control" styles={{display: 'inline-block', width: '90%'}}
+            value={message}
+            onChange={(event) => setMessage(event.target.value)}
+            />
+            <img className="send-button" src={send} onClick={sendMessage}/>
+        </div>
+      </div>
+      
     </div>
   )
 }

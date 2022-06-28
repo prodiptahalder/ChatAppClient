@@ -38,16 +38,31 @@ const ContactsPage = () => {
   }
 
   return (
-    <div>
-      <ul>
+    <div className="contacts-main-container">
+      <div className="header-box">
+        <h3 className="headings">Contacts </h3>
+        <button className="btn btn-outline-danger" onClick={logout}>Logout</button>
+      </div>
+      
+      {contacts && contacts.length>0?
+      (<ul className="list-group list-group-flush contacts-container">
       {contacts && contacts.map((contact, i) => 
-        (<li key={i} className="">
-          <Link to={`/chat/${contact.username}/${contact._id}`}>{contact.username}</Link>
+        (<li key={i} className="list-group-item chat-list-item" onClick={()=> navigate(`/chat/${contact.username}/${contact._id}`)}>
+          {contact.username}
         </li>)
       )}
-      </ul>
-      <Link to={`/add`}>Add contact</Link>
-      <button onClick={logout}>Logout</button>
+      </ul>):
+      (
+        <div className="list-group list-group-flush contacts-container">
+        <div className="list-group-item chat-list-item text-center">
+          Add Contacts to Start Chatting
+          <br/>
+          <button className="btn btn-info add-contact text-white" onClick={()=>navigate('/add')}>Add contact</button>
+        </div>
+      </div>
+      )
+      }
+      {contacts && contacts.length>0 && <button className="btn btn-outline-info add-contact" onClick={()=>navigate('/add')}>Add contact</button>}
     </div>
   )
 }
