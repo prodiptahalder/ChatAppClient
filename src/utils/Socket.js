@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 
-export const socket = io.connect(`http://192.168.56.1:3001`);
+export const socket = io.connect(`${process.env.SERVER}`);
 
 export const SocketRequest = (payload) => {
     const {type, body} = payload;
